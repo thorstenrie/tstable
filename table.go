@@ -1,40 +1,56 @@
+// Copyright (c) 2023 thorstenrie.
+// All Rights Reserved. Use is governed with GNU Affero General Public LIcense v3.0
+// that can be found in the LICENSE file.
 package lpstr
 
+// Import Go standard packages and lpstats
 import (
-	"errors"
-	"fmt"
-	"strings"
-	"unicode/utf8"
+	"errors"       // errors
+	"fmt"          // fmt
+	"strings"      // strings
+	"unicode/utf8" // utf8
 
-	"github.com/thorstenrie/lpstats"
+	"github.com/thorstenrie/lpstats" // lpstats
+	"github.com/thorstenrie/tserr"
 )
 
+// Table holds the header of the table and all rows of the table. It also contains
+// information on the width of each row, the row index for sorting, padding and whether
+// the table is printed with a grid. Per default, a table has padding 2, a grid and
+// is sorted by its first row.
 type Table struct {
-	header  []string
-	rows    [][]string
-	width   []int
-	key     int
-	padding int
-	grid    bool
+	header  []string   // Header as a slice of strings
+	rows    [][]string // Rows as a slice of slices of strings
+	width   []int      // Width of each row
+	key     int        // Row index for sorting (default first column)
+	padding int        // Padding (default 2)
+	grid    bool       // Table grid (default true)
 }
 
+// defaultPadding defines the default padding for a new Table
 const (
-	DefaultPadding = 2
+	defaultPadding = 2
 )
 
+// New returns a pointer to a new Table. It expects the header of the table
+// h as a slice of strings. It returns nil and an error, if h is nil, has
+// zero length or contains non-printable runes.
 func New(h []string) (*Table, error) {
+	// Return nil and an error if h is nil or h has zero length
 	if (h == nil) || (len(h) == 0) {
-		return nil, errors.New("empty header")
+		return nil, tserr.Empty("header")
 	}
+	// Retrieve whether h contains only printable characters with IsPrintable
 	p, e := IsPrintable(h)
+	// Return nil and an error if IsPrintable fails
 	if e != nil {
-		return nil, e
+		return nil, tserr.Op(&tserr.OpArgs{Op: "IsPrintable", Fn: "header", Err: e})
 	}
 	if !p {
 		return nil, errors.New("non-printable characters in header")
 	}
 	t := &Table{
-		padding: DefaultPadding,
+		padding: defaultPadding,
 		grid:    true,
 		header:  h,
 		rows:    make([][]string, 0),
