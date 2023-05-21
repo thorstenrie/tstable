@@ -165,10 +165,6 @@ func (t *Table) Print() (string, error) {
 	text += hline
 	// Print header
 	for i, h := range t.header {
-		// Add header formatting if table is printed without grid
-		if !t.grid {
-			h = "[" + h + "]"
-		}
 		// Return an empty string and an error, if the difference of width of column i and length of h is negative
 		if t.width[i]-len(h) < 0 {
 			return "", tserr.Higher(&tserr.HigherArgs{Var: "width", Actual: int64(t.width[i]), LowerBound: int64(len(h))})
@@ -221,7 +217,7 @@ func (t *Table) Print() (string, error) {
 		text += vrline + "\n"
 	}
 	// Retrieve bottom horizontal grid line
-	hline, e = t.hline(len(t.rows))
+	hline, e = t.hline(len(t.rows) + 1)
 	// Return an empty string and an error, if hline fails
 	if e != nil {
 		return text, tserr.Op(&tserr.OpArgs{Op: "hline", Fn: "table", Err: e})
@@ -271,28 +267,12 @@ func (t *Table) SetPadding(p int) error {
 }
 
 // WithoutGrid disables the grid for table t when printed. Per default, a new table has a grid enabled.
-// A table without grid does not have any grid lines. The column headers are formatted in brackets []. The
+// A table without grid does not have any grid lines. The
 // table padding is now defined as the number of spaces between th columns.
 func (t *Table) WithoutGrid() error {
 	// Return an error if t is nil
 	if t == nil {
 		return tserr.NilPtr()
-	}
-	// Return an error if width or header is nils
-	if (t.width == nil) || (t.header == nil) {
-		return tserr.NilPtr()
-	}
-	// Return an error, if the number of elements in header does not equal the number of elements in width
-	if len(t.width) != len(t.header) {
-		return tserr.Equal(&tserr.EqualArgs{Var: "table width slice", Actual: int64(len(t.width)), Want: int64(len(t.header))})
-	}
-	// Add +2 to the width of a column if the column header defines the width of the column because
-	// the column headers are formatted in brackets [] and therefore contain two more runes.
-	for i, w := range t.width {
-		// If the column header defines the width of the column, add +2 to the width
-		if len(t.header[i]) == w {
-			t.width[i] += 2
-		}
 	}
 	// Set grid to false
 	t.grid = false

@@ -49,7 +49,7 @@ func (t *Table) hline(r int) (string, error) {
 		return "", tserr.NilPtr()
 	}
 	// Maximum number of horizontal lines
-	rmax := len(t.rows)
+	rmax := len(t.rows) + 1
 	// Return an empty string and an error if r is higher than the maximum number of horizontal lines
 	if r > rmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "row index", Actual: int64(r), HigherBound: int64(rmax)})
@@ -60,7 +60,7 @@ func (t *Table) hline(r int) (string, error) {
 	}
 	// Add initial padding to the horizontal line
 	text += strings.Repeat(" ", t.padding)
-	// Iterate width
+	// Iterate width column by column
 	for i, w := range t.width {
 		// Return an empty string and an error if width is negative
 		if w < 0 {
@@ -110,7 +110,7 @@ func (t *Table) hchar(r int) (string, error) {
 		return "", tserr.NilPtr()
 	}
 	// Maximum number of horizontal grid lines
-	rmax := len(t.rows)
+	rmax := len(t.rows) + 1
 	// Return an empty string and an error if r is higher tham rmax
 	if r > rmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "row index", Actual: int64(r), HigherBound: int64(rmax)})
@@ -150,38 +150,53 @@ func (t *Table) hvchar(r, c int) (string, error) {
 	if t.header == nil {
 		return "", tserr.NilPtr()
 	}
-	rmax := len(t.rows)
+	// Maximum number of horizontal grid lines
+	rmax := len(t.rows) + 1
+	// Maximum number of vertical grid lines
 	cmax := len(t.header)
+	// Return an empty string and an error if r is higher than rmax
 	if r > rmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "row index", Actual: int64(r), HigherBound: int64(rmax)})
 	}
+	// Return an empty string and an error if c is higher than cmax
 	if c > cmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "column index", Actual: int64(c), HigherBound: int64(cmax)})
 	}
+	// First horizontal grid line
 	if r == 0 {
+		// First column
 		if c == 0 {
 			return hvtlchar, nil
 		}
+		// Last column
 		if c == cmax {
 			return hvtrchar, nil
 		}
+		// Any other column
 		return hvtchar, nil
 	}
+	// Last horizontal grid line
 	if r == rmax {
+		// First column
 		if c == 0 {
 			return hvblchar, nil
 		}
+		// Last column
 		if c == cmax {
 			return hvbrchar, nil
 		}
+		// Any other column
 		return hvbchar, nil
 	}
+	// First column of any other horizontal line
 	if c == 0 {
 		return hvlchar, nil
 	}
+	// Last grid line of any other horizontal line
 	if c == cmax {
 		return hvrchar, nil
 	}
+	// Any other horizontal vertical grid line
 	return hvmchar, nil
 }
 
@@ -199,20 +214,27 @@ func (t *Table) vline(c int) (string, error) {
 	if t.padding < 0 {
 		return "", tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
 	}
+	// Return an empty string and an error if c is negative
 	if c < 0 {
 		return "", tserr.Higher(&tserr.HigherArgs{Var: "row index", Actual: int64(c), LowerBound: 0})
 	}
+	// Return an empty string and an error if header is nil
 	if t.header == nil {
 		return "", tserr.NilPtr()
 	}
+	// Maximum number of vertical grid lines
 	cmax := len(t.header)
+	// Return an empty string and an error if c is higher than cmax
 	if c > cmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "column index", Actual: int64(c), HigherBound: int64(cmax)})
 	}
+	// Set vertical grid line
 	vchar := vmchar
+	// Update vertical grid line for the first column
 	if c == 0 {
 		vchar = vlchar
 	}
+	// Update vertical grid line for the last column
 	if c == cmax {
 		vchar = vrchar
 	}

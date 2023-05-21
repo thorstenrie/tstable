@@ -28,12 +28,12 @@ var (
 		" ║ Boromir           │ Captain of the White Tower   │ Sword        ║\n" +
 		" ║ Gandalf           │ The Grey                     │ Wizard staff ║\n" +
 		" ╚═══════════════════╧══════════════════════════════╧══════════════╝\n"
-	refWithoutGrid = " [Fellowship member] [Title]                      [Weapon]    \n" +
-		" Gimli               Lord of the Glittering Caves Axe         \n" +
-		" Legolas             Prince of the Woodland Realm Bow         \n" +
-		" Aragorn             King of Gondor               Sword       \n" +
-		" Boromir             Captain of the White Tower   Sword       \n" +
-		" Gandalf             The Grey                     Wizard staff\n"
+	refWithoutGrid = " Fellowship member Title                        Weapon      \n" +
+		" Gimli             Lord of the Glittering Caves Axe         \n" +
+		" Legolas           Prince of the Woodland Realm Bow         \n" +
+		" Aragorn           King of Gondor               Sword       \n" +
+		" Boromir           Captain of the White Tower   Sword       \n" +
+		" Gandalf           The Grey                     Wizard staff\n"
 )
 
 func loadTable(t *testing.T) *lpstr.Table {
@@ -65,5 +65,12 @@ func TestTableWithoutGrid(t *testing.T) {
 
 func TestTableWithGrid(t *testing.T) {
 	tbl := loadTable(t)
+	printTable(t, tbl, refWithGrid)
+}
+
+func TestMinTable(t *testing.T) {
+	tbl, _ := lpstr.New([]string{" ", " "})
+	tbl.AddRow([]string{"", ""})
+	tbl.SetPadding(0)
 	printTable(t, tbl, refWithGrid)
 }
