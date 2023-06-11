@@ -22,7 +22,7 @@ type Table struct {
 	width   []int      // Width of each row
 	key     int        // Row index for sorting (default first column)
 	padding int        // Padding (default 2)
-	grid    bool       // Table grid (default true)
+	grid    *Grid      // Table grid
 }
 
 // defaultPadding defines the default padding for a new Table
@@ -51,7 +51,7 @@ func New(h []string) (*Table, error) {
 	// Retrieve a new instance of struct Table
 	t := &Table{
 		padding: defaultPadding,      // default padding
-		grid:    true,                // with table grid
+		grid:    &SimpleGrid,         // with a simple table grid
 		header:  h,                   // set header
 		rows:    make([][]string, 0), // allocate and initialize rows
 		width:   make([]int, len(h)), // allocate and initialize width
@@ -266,16 +266,14 @@ func (t *Table) SetPadding(p int) error {
 	return nil
 }
 
-// WithoutGrid disables the grid for table t when printed. Per default, a new table has a grid enabled.
-// A table without grid does not have any grid lines. The
-// table padding is now defined as the number of spaces between th columns.
-func (t *Table) WithoutGrid() error {
-	// Return an error if t is nil
-	if t == nil {
+// SetGrid sets the grid for table t when printed. Per default, a new table has a simple grid enabled.
+// A table without grid has an empty grid and does not have any grid lines. The
+// table padding is defined as the number of spaces between the grid and cell contents.
+func (t *Table) SetGrid(g *Grid) error {
+	// Return an error if t or g is nil
+	if (t == nil) || (g == nil) {
 		return tserr.NilPtr()
 	}
-	// Set grid to false
-	t.grid = false
-	// Return nil
+	t.grid = g
 	return nil
 }

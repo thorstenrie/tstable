@@ -3,20 +3,26 @@
 // that can be found in the LICENSE file.
 package lpstr_test
 
+// Import Go standard packages, lpstr and tserr
 import (
-	"testing"
+	"testing" // testing
 
-	"github.com/thorstenrie/lpstr"
-	"github.com/thorstenrie/tserr"
+	"github.com/thorstenrie/lpstr" // lpstr
+	"github.com/thorstenrie/tserr" // tserr
 )
 
+// Testcases
 var (
-	testStrP  = "Andúril"
-	testStrNp = testStrP + "\n"
+	testStrP  = "Andúril"       // Test string with only printable runes
+	testStrNp = testStrP + "\n" // Test string with a non-printable rune
 )
 
+// TestPrintable1 tests Printable, if it returns the identical string, if the provided string a only
+// contains printable runes. The test fails, if not.
 func TestPrintable1(t *testing.T) {
+	// Retrieve string from Printable for a test string with only printable runes
 	str := lpstr.Printable(testStrP)
+	// The test fails, if the retrived string does not equal the provided string with only printable runes
 	if str != testStrP {
 		t.Error(tserr.Return(&tserr.ReturnArgs{Op: "Printable", Actual: str, Want: testStrP}))
 	}

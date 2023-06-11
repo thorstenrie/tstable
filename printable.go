@@ -25,7 +25,7 @@ func Printable(a string) string {
 }
 
 // IsPrintable returns true, if slice of strings a only consists of
-// printable strings. If one or more strings of slice a contain
+// printable strings. If one or more strings of slice contain
 // a non-printable character, it returns false. If a is nil or
 // has zero length, it returns false and an error.
 func IsPrintable(a []string) (bool, error) {
@@ -43,4 +43,9 @@ func IsPrintable(a []string) (bool, error) {
 	}
 	// Otherwise, return true
 	return true, nil
+}
+
+// RuneToPrintable returns rune r as a string, if it is printable. Otherwise, it returns an empty string.
+func RuneToPrintable(r rune) string {
+	return Printable(string(r))
 }

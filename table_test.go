@@ -58,13 +58,14 @@ func printTable(t *testing.T, tbl *lpstr.Table, wanted string) {
 
 func TestTableWithoutGrid(t *testing.T) {
 	tbl := loadTable(t)
-	tbl.WithoutGrid()
+	tbl.SetGrid(&lpstr.EmptyGrid)
 	printTable(t, tbl, refWithoutGrid)
 
 }
 
 func TestTableWithGrid(t *testing.T) {
 	tbl := loadTable(t)
+	tbl.SetGrid(&lpstr.RoundGrid)
 	printTable(t, tbl, refWithGrid)
 }
 

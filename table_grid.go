@@ -10,24 +10,6 @@ import (
 	"github.com/thorstenrie/tserr" // tserr
 )
 
-const (
-	hmchar   = "\u2500" // horizontal 						─
-	htchar   = "\u2550" // horizontal top					═
-	hbchar   = "\u2550" // horizontal bottom				═
-	vmchar   = "\u2502" // vertical 						│
-	vlchar   = "\u2551" // vertical left					║
-	vrchar   = "\u2551" // vertical right					║
-	hvmchar  = "\u253C" // horizontal vertical 				┼
-	hvlchar  = "\u255F" // horizontal vertical left			╟
-	hvrchar  = "\u2562" // horizontal vertical right		╢
-	hvtchar  = "\u2564" // horizontal vertical top			╤
-	hvbchar  = "\u2567" // horizontal vertical bottom		╧
-	hvtlchar = "\u2554" // horizontal vertical top left		╔
-	hvblchar = "\u255A" // horizontal vertical bottom left	╚
-	hvtrchar = "\u2557" // horizontal vertical top right	╗
-	hvbrchar = "\u255D" // horizontal vertical bottom right ╝
-)
-
 // hline returns a horizontal grid line for table t as a string.
 func (t *Table) hline(r int) (string, error) {
 	// Initialize return value as empty string
@@ -37,9 +19,9 @@ func (t *Table) hline(r int) (string, error) {
 		return text, tserr.NilPtr()
 	}
 	// Return an empty string and nil if the table grid is switched off
-	if !t.grid {
+	/*if !t.grid {
 		return text, nil
-	}
+	}*/
 	// Return an empty string and an error if width is nil
 	if t.width == nil {
 		return text, tserr.NilPtr()
@@ -67,25 +49,25 @@ func (t *Table) hline(r int) (string, error) {
 			return "", tserr.Higher(&tserr.HigherArgs{Var: "width", Actual: int64(w), LowerBound: 0})
 		}
 		// Retrieve the horizontal vertical rune
-		hv, e := t.hvchar(r, i)
-		// Return an empty string and an error if hvchar fails
+		hv, e := t.hv_rune(r, i)
+		// Return an empty string and an error if hv_rune fails
 		if e != nil {
-			return "", tserr.Op(&tserr.OpArgs{Op: "hvchar", Fn: "table", Err: e})
+			return "", tserr.Op(&tserr.OpArgs{Op: "hv_rune", Fn: "table", Err: e})
 		}
 		// Retrieve the horizontal line rune
-		h, e := t.hchar(r)
-		// Return an empty string and an error if hchar fails
+		h, e := t.h_rune(r)
+		// Return an empty string and an error if h_rune fails
 		if e != nil {
-			return "", tserr.Op(&tserr.OpArgs{Op: "hchar", Fn: "table", Err: e})
+			return "", tserr.Op(&tserr.OpArgs{Op: "h_rune", Fn: "table", Err: e})
 		}
 		// Add a horizontal line runes for each column of the table
 		text += hv + strings.Repeat(h, t.padding+t.padding+w)
 	}
 	// Retrieve the horizontal vertical rune at the end of the horizontal line
-	hv, e := t.hvchar(r, len(t.header))
-	// Return an empty string and an error if hvchar fails
+	hv, e := t.hv_rune(r, len(t.header))
+	// Return an empty string and an error if hv_rune fails
 	if e != nil {
-		return "", tserr.Op(&tserr.OpArgs{Op: "hvchar", Fn: "table", Err: e})
+		return "", tserr.Op(&tserr.OpArgs{Op: "hv_rune", Fn: "table", Err: e})
 	}
 	// End rune of the horizontal line
 	text += hv + "\n"
@@ -93,10 +75,10 @@ func (t *Table) hline(r int) (string, error) {
 	return text, nil
 }
 
-// hchar returns the horizontal grid line rune for row r. The returned rune depends on whether
+// h_rune returns the horizontal grid line rune for row r. The returned rune depends on whether
 // it is the top line with r = 0, the bottom line with r = rmax or a line in between. It returns an
 // empty string and an error if r is negative or r is higher than rmax.
-func (t *Table) hchar(r int) (string, error) {
+func (t *Table) h_rune(r int) (string, error) {
 	// Return an empty string and an error if t is nil
 	if t == nil {
 		return "", tserr.NilPtr()
@@ -115,21 +97,17 @@ func (t *Table) hchar(r int) (string, error) {
 	if r > rmax {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "row index", Actual: int64(r), HigherBound: int64(rmax)})
 	}
-	// Return the top horizontal grid line rune for the top line
-	if r == 0 {
-		return htchar, nil
-	}
-	// Return the bottom horizontal grid line rune for the bottom line
-	if r == rmax {
-		return hbchar, nil
+	// Return the horizontal border grid line rune for the top line or the bottom line
+	if (r == 0) || (r == rmax) {
+		return RuneToPrintable(t.grid.hb), nil
 	}
 	// Return the horizontal grid line rune
-	return hmchar, nil
+	return RuneToPrintable(t.grid.hi), nil
 }
 
-// hvchar returns the horizontal vertical grid line for row r and column c. It returns an
+// hv_rune returns the horizontal vertical grid line for row r and column c. It returns an
 // an empty string and an error if r or c are negative or are higher than rmax or cmax.
-func (t *Table) hvchar(r, c int) (string, error) {
+func (t *Table) hv_rune(r, c int) (string, error) {
 	// Return an empty string and an error if t is nil
 	if t == nil {
 		return "", tserr.NilPtr()
@@ -166,38 +144,38 @@ func (t *Table) hvchar(r, c int) (string, error) {
 	if r == 0 {
 		// First column
 		if c == 0 {
-			return hvtlchar, nil
+			return RuneToPrintable(t.grid.hvtl), nil
 		}
 		// Last column
 		if c == cmax {
-			return hvtrchar, nil
+			return RuneToPrintable(t.grid.hvtr), nil
 		}
 		// Any other column
-		return hvtchar, nil
+		return RuneToPrintable(t.grid.hvt), nil
 	}
 	// Last horizontal grid line
 	if r == rmax {
 		// First column
 		if c == 0 {
-			return hvblchar, nil
+			return RuneToPrintable(t.grid.hvbl), nil
 		}
 		// Last column
 		if c == cmax {
-			return hvbrchar, nil
+			return RuneToPrintable(t.grid.hvbr), nil
 		}
 		// Any other column
-		return hvbchar, nil
+		return RuneToPrintable(t.grid.hvb), nil
 	}
 	// First column of any other horizontal line
 	if c == 0 {
-		return hvlchar, nil
+		return RuneToPrintable(t.grid.hvl), nil
 	}
 	// Last grid line of any other horizontal line
 	if c == cmax {
-		return hvrchar, nil
+		return RuneToPrintable(t.grid.hvr), nil
 	}
 	// Any other horizontal vertical grid line
-	return hvmchar, nil
+	return RuneToPrintable(t.grid.hvi), nil
 }
 
 // vline returns a vertical grid line for table t as a string.
@@ -207,9 +185,9 @@ func (t *Table) vline(c int) (string, error) {
 		return "", tserr.NilPtr()
 	}
 	// Return an empty string and nil if the table grid is switched off
-	if !t.grid {
+	/*if !t.grid {
 		return "", nil
-	}
+	}*/
 	// Return an empty string and an error if padding is negative
 	if t.padding < 0 {
 		return "", tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
@@ -229,15 +207,11 @@ func (t *Table) vline(c int) (string, error) {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "column index", Actual: int64(c), HigherBound: int64(cmax)})
 	}
 	// Set vertical grid line
-	vchar := vmchar
-	// Update vertical grid line for the first column
-	if c == 0 {
-		vchar = vlchar
-	}
-	// Update vertical grid line for the last column
-	if c == cmax {
-		vchar = vrchar
+	v_rune := t.grid.vi
+	// Update vertical grid line for the first or last column
+	if (c == 0) || (c == cmax) {
+		v_rune = t.grid.vb
 	}
 	// Return vertical grid line with padding and nil
-	return strings.Repeat(" ", t.padding) + vchar, nil
+	return strings.Repeat(" ", t.padding) + RuneToPrintable(v_rune), nil
 }
