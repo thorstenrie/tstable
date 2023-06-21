@@ -1,5 +1,5 @@
 // Copyright (c) 2023 thorstenrie.
-// All Rights Reserved. Use is governed with GNU Affero General Public LIcense v3.0
+// All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
 package lpstr
 
@@ -10,7 +10,20 @@ import (
 	"github.com/thorstenrie/tserr" // tserr
 )
 
-// hline returns a horizontal grid line for table t as a string.
+func (t *Table) spaces() (string, error) {
+	// Return an empty string and an error if t is nil
+	if t == nil {
+		return "", tserr.NilPtr()
+	}
+	// Return an empty string and an error if padding is negative
+	if t.padding < 0 {
+		return "", tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
+	}
+	return strings.Repeat(" ", t.padding), nil
+}
+
+// hline returns a horizontal grid line (on top) of row with index r for table t as a string. It returns
+// an empty string and an error, if any.
 func (t *Table) hline(r int) (string, error) {
 	// Initialize return value as empty string
 	text := ""
@@ -18,10 +31,6 @@ func (t *Table) hline(r int) (string, error) {
 	if t == nil {
 		return text, tserr.NilPtr()
 	}
-	// Return an empty string and nil if the table grid is switched off
-	/*if !t.grid {
-		return text, nil
-	}*/
 	// Return an empty string and an error if width is nil
 	if t.width == nil {
 		return text, tserr.NilPtr()
@@ -30,18 +39,12 @@ func (t *Table) hline(r int) (string, error) {
 	if t.rows == nil {
 		return "", tserr.NilPtr()
 	}
-	// Maximum number of horizontal lines
-	rmax := len(t.rows) + 1
-	// Return an empty string and an error if r is higher than the maximum number of horizontal lines
-	if r > rmax {
-		return "", tserr.Lower(&tserr.LowerArgs{Var: "row index", Actual: int64(r), HigherBound: int64(rmax)})
-	}
-	// Return an empty string and an error if padding is negative
-	if t.padding < 0 {
-		return text, tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
-	}
 	// Add initial padding to the horizontal line
-	text += strings.Repeat(" ", t.padding)
+	spaces, e := t.spaces()
+	if e != nil {
+		return "", tserr.Op(&tserr.OpArgs{Op: "spaces", Fn: "table", Err: e})
+	}
+	text += spaces
 	// Iterate width column by column
 	for i, w := range t.width {
 		// Return an empty string and an error if width is negative
@@ -106,7 +109,7 @@ func (t *Table) h_rune(r int) (string, error) {
 }
 
 // hv_rune returns the horizontal vertical grid line for row r and column c. It returns an
-// an empty string and an error if r or c are negative or are higher than rmax or cmax.
+// an empty string and an error if r or c are negative as well as if r or c are higher than rmax or cmax.
 func (t *Table) hv_rune(r, c int) (string, error) {
 	// Return an empty string and an error if t is nil
 	if t == nil {
@@ -178,19 +181,11 @@ func (t *Table) hv_rune(r, c int) (string, error) {
 	return RuneToPrintable(t.grid.hvi), nil
 }
 
-// vline returns a vertical grid line for table t as a string.
+// vline returns a vertical grid line for table t as a string. It returns an empty string and an error, if any.
 func (t *Table) vline(c int) (string, error) {
 	// Return an empty string and an error if t is nil
 	if t == nil {
 		return "", tserr.NilPtr()
-	}
-	// Return an empty string and nil if the table grid is switched off
-	/*if !t.grid {
-		return "", nil
-	}*/
-	// Return an empty string and an error if padding is negative
-	if t.padding < 0 {
-		return "", tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
 	}
 	// Return an empty string and an error if c is negative
 	if c < 0 {
@@ -199,6 +194,10 @@ func (t *Table) vline(c int) (string, error) {
 	// Return an empty string and an error if header is nil
 	if t.header == nil {
 		return "", tserr.NilPtr()
+	}
+	spaces, e := t.spaces()
+	if e != nil {
+		return "", tserr.Op(&tserr.OpArgs{Op: "spaces", Fn: "table", Err: e})
 	}
 	// Maximum number of vertical grid lines
 	cmax := len(t.header)
@@ -213,5 +212,5 @@ func (t *Table) vline(c int) (string, error) {
 		v_rune = t.grid.vb
 	}
 	// Return vertical grid line with padding and nil
-	return strings.Repeat(" ", t.padding) + RuneToPrintable(v_rune), nil
+	return spaces + RuneToPrintable(v_rune), nil
 }

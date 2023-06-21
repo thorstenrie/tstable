@@ -1,5 +1,5 @@
 // Copyright (c) 2023 thorstenrie.
-// All Rights Reserved. Use is governed with GNU Affero General Public LIcense v3.0
+// All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
 package lpstr
 
@@ -10,7 +10,7 @@ import (
 	"github.com/thorstenrie/tserr" // tserr
 )
 
-// ByRow implements sort.Interface fo Table based on
+// byRow implements sort.Interface fo Table based on
 // the selected row, which is given by the row index in field key. Initially,
 // the first row is selected. The selected row can be changed with function SortBy.
 type byRow Table

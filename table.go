@@ -1,9 +1,9 @@
 // Copyright (c) 2023 thorstenrie.
-// All Rights Reserved. Use is governed with GNU Affero General Public LIcense v3.0
+// All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
 package lpstr
 
-// Import Go standard packages and lpstats
+// Import Go standard packages, lpstats and tserr
 import (
 	"strings"      // strings
 	"unicode/utf8" // utf8
@@ -13,9 +13,8 @@ import (
 )
 
 // Table holds the header of the table and all rows of the table. It also contains
-// information on the width of each row, the row index for sorting, padding and whether
-// the table is printed with a grid. Per default, a table has padding 2, a grid and
-// is sorted by its first row.
+// information on the width of each column, the row index for sorting, padding and the table grid.
+// Per default, a table has padding 2, a simple grid and is sorted by its first row.
 type Table struct {
 	header  []string   // Header as a slice of strings
 	rows    [][]string // Rows as a slice of slices of strings
@@ -25,14 +24,9 @@ type Table struct {
 	grid    *Grid      // Table grid
 }
 
-// defaultPadding defines the default padding for a new Table
-const (
-	defaultPadding = 2
-)
-
 // New returns a pointer to a new Table. It expects the header of the table
 // h as a slice of strings. It returns nil and an error, if h is nil, has
-// zero length or contains non-printable runes.
+// zero length or contains non-printable runes. The order of the header is fixed.
 func New(h []string) (*Table, error) {
 	// Return nil and an error if h is nil or h has zero length
 	if (h == nil) || (len(h) == 0) {
@@ -50,7 +44,7 @@ func New(h []string) (*Table, error) {
 	}
 	// Retrieve a new instance of struct Table
 	t := &Table{
-		padding: defaultPadding,      // default padding
+		padding: 2,                   // default padding
 		grid:    &SimpleGrid,         // with a simple table grid
 		header:  h,                   // set header
 		rows:    make([][]string, 0), // allocate and initialize rows
@@ -70,7 +64,7 @@ func New(h []string) (*Table, error) {
 // contain the same number of elements as the table header. The order of elements must match
 // the order of columns defined by the table header. It returns
 // an error if t is nil, r is nil or empty or if the number of elements in r does not equal the
-// number of elements in the table header.
+// number of elements in the table header or if r contains non-printable runes.
 func (t *Table) AddRow(r []string) error {
 	// Return an error if t is nil
 	if t == nil {
@@ -128,8 +122,8 @@ func (t *Table) String() string {
 }
 
 // Print returns the contents of table t in a string representation. The formatting
-// of the table can be altered by changing the padding with SetPadding or disabling the table grid
-// with WithoutGrid. The rows are sorted in alphabetical order according to the selected column with
+// of the table can be altered by changing the padding with SetPadding or setting a different grid with SetGrid.
+// The rows are sorted in alphabetical order according to the selected column with
 // SortBy. Per default, it is sorted by the first column.
 func (t *Table) Print() (string, error) {
 	// Initialize return value with an empty string
@@ -146,9 +140,11 @@ func (t *Table) Print() (string, error) {
 	if len(t.header) != len(t.width) {
 		return text, tserr.Equal(&tserr.EqualArgs{Var: "table width slice", Actual: int64(len(t.width)), Want: int64(len(t.header))})
 	}
-	// Return an empty string and an error, if padding is negative
-	if t.padding < 0 {
-		return text, tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
+	// Retrieve spaces for padding
+	spaces, e := t.spaces()
+	// Return an empty string and an error, if spaces returns an error
+	if e != nil {
+		return text, tserr.Op(&tserr.OpArgs{Op: "spaces", Fn: "table", Err: e})
 	}
 	// Sort table by selected row, which is given by the row index in struct field key
 	if err := t.sort(); err != nil {
@@ -173,25 +169,31 @@ func (t *Table) Print() (string, error) {
 		vline, e := t.vline(i)
 		// Return an empty string and an error, if vline fails
 		if e != nil {
-			return text, tserr.Op(&tserr.OpArgs{Op: "vline", Fn: "table", Err: e})
+			return "", tserr.Op(&tserr.OpArgs{Op: "vline", Fn: "table", Err: e})
 		}
 		// Add header of column to return string
-		text += vline + strings.Repeat(" ", t.padding) + h + strings.Repeat(" ", t.width[i]-len(h))
+		text += vline + spaces + h + strings.Repeat(" ", t.width[i]-len(h))
 	}
+	// Retrieve vertical grid line at the end of the header
+	vrline, e := t.vline(len(t.header))
+	// Return an empty string and an error, if vline fails
+	if e != nil {
+		return "", tserr.Op(&tserr.OpArgs{Op: "vline", Fn: "table", Err: e})
+	}
+	// Add vertical grid line at the end of the header to the return string
+	text += vrline + "\n"
 	// Retrieve horizontal grid line below header
 	hline, e = t.hline(1)
 	// Return an empty string and an error, if hline fails
 	if e != nil {
-		return text, tserr.Op(&tserr.OpArgs{Op: "hline", Fn: "table", Err: e})
-	}
-	// Retrieve top vertical grid line
-	vrline, e := t.vline(len(t.header))
-	// Return an empty string and an error, if vline fails
-	if e != nil {
-		return text, tserr.Op(&tserr.OpArgs{Op: "vline", Fn: "table", Err: e})
+		return "", tserr.Op(&tserr.OpArgs{Op: "hline", Fn: "table", Err: e})
 	}
 	// Add horizontal grid line to return string
-	text += vrline + "\n" + hline
+	text += hline
+	// Return string representation if the table does not have rows
+	if len(t.rows) == 0 {
+		return text, nil
+	}
 	// Print rows
 	for _, r := range t.rows {
 		// Return an empty string and an error, if the size of row r is not equal to the size of width
@@ -211,7 +213,7 @@ func (t *Table) Print() (string, error) {
 				return text, tserr.Op(&tserr.OpArgs{Op: "vline", Fn: "table", Err: e})
 			}
 			// Add cell c of row r to return string
-			text += vline + strings.Repeat(" ", t.padding) + c + strings.Repeat(" ", t.width[j]-len(c))
+			text += vline + spaces + c + strings.Repeat(" ", t.width[j]-len(c))
 		}
 		// Add vertical grid line to return string and start new row
 		text += vrline + "\n"
@@ -248,9 +250,8 @@ func (t *Table) SortBy(h string) error {
 	return nil
 }
 
-// SetPadding sets the table padding to p. The default padding of a new table is 2. For tables with a grid, padding p defines the number
-// of spaces between the cell grid edges and the cell content. For tables without a grid, padding p defines the number of
-// spaces between th columns. It returns an error if p is negative.
+// SetPadding sets the table padding to p. The default padding of a new table is 2. Padding p defines the number
+// of spaces between the cell grid edges and the cell content. It returns an error if p is negative.
 func (t *Table) SetPadding(p int) error {
 	// Return an error, if t is nil
 	if t == nil {
@@ -267,13 +268,13 @@ func (t *Table) SetPadding(p int) error {
 }
 
 // SetGrid sets the grid for table t when printed. Per default, a new table has a simple grid enabled.
-// A table without grid has an empty grid and does not have any grid lines. The
-// table padding is defined as the number of spaces between the grid and cell contents.
 func (t *Table) SetGrid(g *Grid) error {
 	// Return an error if t or g is nil
 	if (t == nil) || (g == nil) {
 		return tserr.NilPtr()
 	}
+	// Set table grid to g
 	t.grid = g
+	// Return nil
 	return nil
 }
