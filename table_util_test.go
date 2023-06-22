@@ -31,10 +31,10 @@ func testTable(t *testing.T) *lpstr.Table {
 		panic(tserr.NilPtr())
 	}
 	// Create test table with test header
-	tbl, e := lpstr.New(header)
-	// The test fails, if New returns an error
+	tbl, e := lpstr.NewTable(header)
+	// The test fails, if NewTable returns an error
 	if e != nil {
-		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "New", Fn: "table", Err: e}))
+		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
 	}
 	// Add a row to the test table
 	if e := tbl.AddRow(gandalf); e != nil {
