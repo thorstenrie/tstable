@@ -10,6 +10,7 @@ import (
 	"github.com/thorstenrie/tserr" // tserr
 )
 
+// spaces returns the spaces as string for padding. It returns an empty string and an error, if any.
 func (t *Table) spaces() (string, error) {
 	// Return an empty string and an error if t is nil
 	if t == nil {
@@ -19,6 +20,7 @@ func (t *Table) spaces() (string, error) {
 	if t.padding < 0 {
 		return "", tserr.Higher(&tserr.HigherArgs{Var: "padding", Actual: int64(t.padding), LowerBound: 0})
 	}
+	// Return spaces for padding
 	return strings.Repeat(" ", t.padding), nil
 }
 
