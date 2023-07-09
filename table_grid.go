@@ -1,13 +1,14 @@
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
-package lpstr
+package tstable
 
-// Import Go standard library package strings and tserr
+// Import Go standard library package strings as well as tsfio and tserr
 import (
 	"strings" // strings
 
 	"github.com/thorstenrie/tserr" // tserr
+	"github.com/thorstenrie/tsfio" // tsfio
 )
 
 // spaces returns the spaces as string for padding. It returns an empty string and an error, if any.
@@ -104,10 +105,10 @@ func (t *Table) h_rune(r int) (string, error) {
 	}
 	// Return the horizontal border grid line rune for the top line or the bottom line
 	if (r == 0) || (r == rmax) {
-		return RuneToPrintable(t.grid.hb), nil
+		return tsfio.RuneToPrintable(t.grid.hb), nil
 	}
 	// Return the horizontal grid line rune
-	return RuneToPrintable(t.grid.hi), nil
+	return tsfio.RuneToPrintable(t.grid.hi), nil
 }
 
 // hv_rune returns the horizontal vertical grid line for row r and column c. It returns an
@@ -149,38 +150,38 @@ func (t *Table) hv_rune(r, c int) (string, error) {
 	if r == 0 {
 		// First column
 		if c == 0 {
-			return RuneToPrintable(t.grid.hvtl), nil
+			return tsfio.RuneToPrintable(t.grid.hvtl), nil
 		}
 		// Last column
 		if c == cmax {
-			return RuneToPrintable(t.grid.hvtr), nil
+			return tsfio.RuneToPrintable(t.grid.hvtr), nil
 		}
 		// Any other column
-		return RuneToPrintable(t.grid.hvt), nil
+		return tsfio.RuneToPrintable(t.grid.hvt), nil
 	}
 	// Last horizontal grid line
 	if r == rmax {
 		// First column
 		if c == 0 {
-			return RuneToPrintable(t.grid.hvbl), nil
+			return tsfio.RuneToPrintable(t.grid.hvbl), nil
 		}
 		// Last column
 		if c == cmax {
-			return RuneToPrintable(t.grid.hvbr), nil
+			return tsfio.RuneToPrintable(t.grid.hvbr), nil
 		}
 		// Any other column
-		return RuneToPrintable(t.grid.hvb), nil
+		return tsfio.RuneToPrintable(t.grid.hvb), nil
 	}
 	// First column of any other horizontal line
 	if c == 0 {
-		return RuneToPrintable(t.grid.hvl), nil
+		return tsfio.RuneToPrintable(t.grid.hvl), nil
 	}
 	// Last grid line of any other horizontal line
 	if c == cmax {
-		return RuneToPrintable(t.grid.hvr), nil
+		return tsfio.RuneToPrintable(t.grid.hvr), nil
 	}
 	// Any other horizontal vertical grid line
-	return RuneToPrintable(t.grid.hvi), nil
+	return tsfio.RuneToPrintable(t.grid.hvi), nil
 }
 
 // vline returns a vertical grid line for table t as a string. It returns an empty string and an error, if any.
@@ -214,5 +215,5 @@ func (t *Table) vline(c int) (string, error) {
 		v_rune = t.grid.vb
 	}
 	// Return vertical grid line with padding and nil
-	return spaces + RuneToPrintable(v_rune), nil
+	return spaces + tsfio.RuneToPrintable(v_rune), nil
 }

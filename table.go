@@ -1,15 +1,16 @@
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
-package lpstr
+package tstable
 
-// Import Go standard packages, lpstats and tserr
+// Import Go standard packages, lpstats, tsfio and tserr
 import (
 	"strings"      // strings
 	"unicode/utf8" // utf8
 
 	"github.com/thorstenrie/lpstats" // lpstats
 	"github.com/thorstenrie/tserr"   // tserr
+	"github.com/thorstenrie/tsfio"   // tsfio
 )
 
 // Table holds the header of the table and all rows of the table. It also contains
@@ -33,7 +34,7 @@ func NewTable(h []string) (*Table, error) {
 		return nil, tserr.Empty("header")
 	}
 	// Retrieve whether h contains only printable runes with IsPrintable
-	p, e := IsPrintable(h)
+	p, e := tsfio.IsPrintable(h)
 	// Return nil and an error if IsPrintable fails
 	if e != nil {
 		return nil, tserr.Op(&tserr.OpArgs{Op: "IsPrintable", Fn: "header", Err: e})
@@ -83,7 +84,7 @@ func (t *Table) AddRow(r []string) error {
 		return tserr.Equal(&tserr.EqualArgs{Var: "row", Actual: int64(len(r)), Want: int64(len(t.width))})
 	}
 	// Retrieve in p whether r only contains printable runes
-	p, e := IsPrintable(r)
+	p, e := tsfio.IsPrintable(r)
 	// If IsPrintable returns an error, return that error
 	if e != nil {
 		return tserr.Op(&tserr.OpArgs{Op: "IsPrintable", Fn: "row", Err: e})

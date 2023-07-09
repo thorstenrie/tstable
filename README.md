@@ -1,4 +1,4 @@
-# lpstr
+# tstable
 Simple string interface in Go
 
 ## Table grid

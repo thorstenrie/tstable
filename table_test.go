@@ -1,15 +1,16 @@
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
-package lpstr_test
+package tstable_test
 
-// Import Go standard library packages as well as lpstr and tserr
+// Import Go standard library packages as well as tstable, tsfio and tserr
 import (
 	"fmt"     // fmt
 	"testing" // testing
 
-	"github.com/thorstenrie/lpstr" // lpstr
-	"github.com/thorstenrie/tserr" // tserr
+	"github.com/thorstenrie/tserr"   // tserr
+	"github.com/thorstenrie/tsfio"   // tsfio
+	"github.com/thorstenrie/tstable" // tstable
 )
 
 // TestMinTable1 tests the string representation of a table with one column and one row with empty strings as contents. The test fails
@@ -18,7 +19,7 @@ func TestMinTable1(t *testing.T) {
 	// Set name of test table
 	name := "MinTable1"
 	// Retrieve new test table with one column and an empty string in the header
-	tbl, e := lpstr.NewTable([]string{""})
+	tbl, e := tstable.NewTable([]string{""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -41,7 +42,7 @@ func TestMinTable2(t *testing.T) {
 	// Set name of test table
 	name := "MinTable2"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := lpstr.NewTable([]string{"", ""})
+	tbl, e := tstable.NewTable([]string{"", ""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -64,7 +65,7 @@ func TestMinTable3(t *testing.T) {
 	// Set name of test table
 	name := "MinTable3"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := lpstr.NewTable([]string{""})
+	tbl, e := tstable.NewTable([]string{""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -83,7 +84,7 @@ func TestMinTable4(t *testing.T) {
 	// Set name of test table
 	name := "MinTable4"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := lpstr.NewTable([]string{"", ""})
+	tbl, e := tstable.NewTable([]string{"", ""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -115,7 +116,7 @@ func TestNilHeader(t *testing.T) {
 	// Table header is nil
 	var header []string = nil
 	// Retrieve test table
-	if _, e := lpstr.NewTable(header); e == nil {
+	if _, e := tstable.NewTable(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -141,7 +142,7 @@ func TestEmptyHeader(t *testing.T) {
 	// Table header with zero length
 	var header []string = make([]string, 0)
 	// Retrieve test table
-	if _, e := lpstr.NewTable(header); e == nil {
+	if _, e := tstable.NewTable(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -196,7 +197,7 @@ func TestTableStringer(t *testing.T) {
 	// Retrieve test table
 	tbl := testTable(t)
 	// Retrieve Grid for name
-	grid, ok := lpstr.AllGrids[name]
+	grid, ok := tstable.AllGrids[name]
 	// The test fails if Grid is not found
 	if !ok {
 		t.Fatal(tserr.NotExistent(name))
@@ -211,8 +212,8 @@ func TestTableStringer(t *testing.T) {
 	// Retrieve the test data golden file contents for the grid
 	want := testData(name, t)
 	// The test fails if the retrieved string representation of the test table does not equal to the contents of the test data golden file
-	if lpstr.Printable(s) != lpstr.Printable(want) {
-		t.Error(tserr.NotEqualStr(&tserr.NotEqualStrArgs{X: s, Y: want}))
+	if tsfio.Printable(s) != tsfio.Printable(want) {
+		t.Error(tserr.EqualStr(&tserr.EqualStrArgs{Var: name, Actual: s, Want: want}))
 	}
 }
 
@@ -222,7 +223,7 @@ func TestNonPrintableHeader(t *testing.T) {
 	// Table header with non-printable runes
 	header := []string{testStrNp}
 	// Retrieve test table
-	if _, e := lpstr.NewTable(header); e == nil {
+	if _, e := tstable.NewTable(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -246,7 +247,7 @@ func TestNegativePadding(t *testing.T) {
 // The test fails if SetGrid returns a nil error.
 func TestNilGrid(t *testing.T) {
 	// Grid is nil
-	var grid *lpstr.Grid = nil
+	var grid *tstable.Grid = nil
 	// Retrieve test table
 	tbl := testTable(t)
 	// Set grid

@@ -1,14 +1,14 @@
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
-package lpstr_test
+package tstable_test
 
-// Import the Go standard library package testing as well as lpstr and tserr
+// Import the Go standard library package testing as well as tstable and tserr
 import (
 	"testing" // testing
 
-	"github.com/thorstenrie/lpstr" // lpstr
-	"github.com/thorstenrie/tserr" // tserr
+	"github.com/thorstenrie/tserr"   // tserr
+	"github.com/thorstenrie/tstable" // tstable
 )
 
 // TestGrids tests all grids of AllGrids. The test fails, if the retrieved string representation of the test table
@@ -17,7 +17,7 @@ func TestGrids(t *testing.T) {
 	// retrieve test table
 	tbl := testTable(t)
 	// Iterate over all grids of AllGrids
-	for name, grid := range lpstr.AllGrids {
+	for name, grid := range tstable.AllGrids {
 		// Set the grid of the test table
 		e := tbl.SetGrid(grid)
 		// The test fails if SetGrid fails

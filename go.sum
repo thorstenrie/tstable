@@ -1,6 +1,6 @@
 github.com/thorstenrie/lpstats v1.3.0 h1:IvE18r31oehiRptQEhr597lBLNP0/F4qUevF8h0vB0s=
 github.com/thorstenrie/lpstats v1.3.0/go.mod h1:wuc8IgXBq/M8CUS8I1cC0ZI9FlYz6BUU9tuC1JRtk40=
-github.com/thorstenrie/tserr v1.9.0 h1:Q6+fX9HZOSdEtulfRDhwysF86zjiG3JaZHaT4Qp6QRw=
-github.com/thorstenrie/tserr v1.9.0/go.mod h1:8kiMcslns2DRdKLkLkp8MTb910lmtd9uPsElyILdkjA=
-github.com/thorstenrie/tsfio v1.2.0 h1:4qN2GeREI7FS/T5f3q4hcQPSiISFbiKjk2isP/sVwMA=
-github.com/thorstenrie/tsfio v1.2.0/go.mod h1:Es2yuLsTq+pzSgkoqPMMV9XrgjUJB2WsC7+Do1aSsto=
+github.com/thorstenrie/tserr v1.10.2 h1:p3AIyK9aSeRqrZ7y/zAkO70amPWEFcpunbM5Ltk8SFs=
+github.com/thorstenrie/tserr v1.10.2/go.mod h1:8kiMcslns2DRdKLkLkp8MTb910lmtd9uPsElyILdkjA=
+github.com/thorstenrie/tsfio v1.3.0 h1:W3iv0wT1gRkzSQmdC978VImrBNxVvgPrS7vG5rHnWiw=
+github.com/thorstenrie/tsfio v1.3.0/go.mod h1:hiC/ovdHjJm36f4WcUkDlsfoAy3cyUXltKLpo4uZB2M=

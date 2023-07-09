@@ -1,24 +1,24 @@
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
-package lpstr
+package tstable
 
 // A Grid contains the runes to define the grid format of a table. A table grid is defined by thirteen runes.
 // A rune is allowed to be empty.
 //
-// 		hi:   	horizontal inside, separation between header and the rest of the table rows
-//		hb:		horizontal border, at the top and bottom of the table
-//		vi:		vertical inside, separation between table columns
-//		vb:		vertical border, at the left and right side of the table
-//		hvi:	horizontal vertical inside
-//		hvl:	horizontal vertical left
-//		hvr:	horizontal vertical right
-//		hvt:	horizontal vertical top
-//		hvb:	horizontal vertical bottom
-//		hvtl:	horizontal vertical top left
-//		hvbl:	horizontal vertical bottom left
-//		hvtr:	horizontal vertcial top right
-//		hvbr:	horizontal vertcial bottom right
+//	hi:   	horizontal inside, separation between header and the rest of the table rows
+//	hb:		horizontal border, at the top and bottom of the table
+//	vi:		vertical inside, separation between table columns
+//	vb:		vertical border, at the left and right side of the table
+//	hvi:	horizontal vertical inside
+//	hvl:	horizontal vertical left
+//	hvr:	horizontal vertical right
+//	hvt:	horizontal vertical top
+//	hvb:	horizontal vertical bottom
+//	hvtl:	horizontal vertical top left
+//	hvbl:	horizontal vertical bottom left
+//	hvtr:	horizontal vertcial top right
+//	hvbr:	horizontal vertcial bottom right
 //
 // A table grid has an outside border. The header row is separated from the table rows by a horizontal grid line.
 // Table rows do not have a grid line between the rows. Columns are divided by an inside grid line.
