@@ -105,10 +105,10 @@ func (t *Table) h_rune(r int) (string, error) {
 	}
 	// Return the horizontal border grid line rune for the top line or the bottom line
 	if (r == 0) || (r == rmax) {
-		return tsfio.RuneToPrintable(t.grid.hb), nil
+		return tsfio.RuneToPrintable(t.grid.Hb), nil
 	}
 	// Return the horizontal grid line rune
-	return tsfio.RuneToPrintable(t.grid.hi), nil
+	return tsfio.RuneToPrintable(t.grid.Hi), nil
 }
 
 // hv_rune returns the horizontal vertical grid line for row r and column c. It returns an
@@ -150,38 +150,38 @@ func (t *Table) hv_rune(r, c int) (string, error) {
 	if r == 0 {
 		// First column
 		if c == 0 {
-			return tsfio.RuneToPrintable(t.grid.hvtl), nil
+			return tsfio.RuneToPrintable(t.grid.Hvtl), nil
 		}
 		// Last column
 		if c == cmax {
-			return tsfio.RuneToPrintable(t.grid.hvtr), nil
+			return tsfio.RuneToPrintable(t.grid.Hvtr), nil
 		}
 		// Any other column
-		return tsfio.RuneToPrintable(t.grid.hvt), nil
+		return tsfio.RuneToPrintable(t.grid.Hvt), nil
 	}
 	// Last horizontal grid line
 	if r == rmax {
 		// First column
 		if c == 0 {
-			return tsfio.RuneToPrintable(t.grid.hvbl), nil
+			return tsfio.RuneToPrintable(t.grid.Hvbl), nil
 		}
 		// Last column
 		if c == cmax {
-			return tsfio.RuneToPrintable(t.grid.hvbr), nil
+			return tsfio.RuneToPrintable(t.grid.Hvbr), nil
 		}
 		// Any other column
-		return tsfio.RuneToPrintable(t.grid.hvb), nil
+		return tsfio.RuneToPrintable(t.grid.Hvb), nil
 	}
 	// First column of any other horizontal line
 	if c == 0 {
-		return tsfio.RuneToPrintable(t.grid.hvl), nil
+		return tsfio.RuneToPrintable(t.grid.Hvl), nil
 	}
 	// Last grid line of any other horizontal line
 	if c == cmax {
-		return tsfio.RuneToPrintable(t.grid.hvr), nil
+		return tsfio.RuneToPrintable(t.grid.Hvr), nil
 	}
 	// Any other horizontal vertical grid line
-	return tsfio.RuneToPrintable(t.grid.hvi), nil
+	return tsfio.RuneToPrintable(t.grid.Hvi), nil
 }
 
 // vline returns a vertical grid line for table t as a string. It returns an empty string and an error, if any.
@@ -209,10 +209,10 @@ func (t *Table) vline(c int) (string, error) {
 		return "", tserr.Lower(&tserr.LowerArgs{Var: "column index", Actual: int64(c), HigherBound: int64(cmax)})
 	}
 	// Set vertical grid line
-	v_rune := t.grid.vi
+	v_rune := t.grid.Vi
 	// Update vertical grid line for the first or last column
 	if (c == 0) || (c == cmax) {
-		v_rune = t.grid.vb
+		v_rune = t.grid.Vb
 	}
 	// Return vertical grid line with padding and nil
 	return spaces + tsfio.RuneToPrintable(v_rune), nil

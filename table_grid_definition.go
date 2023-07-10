@@ -3,27 +3,27 @@
 // that can be found in the LICENSE file.
 package tstable
 
-// A Grid contains the runes to define the grid format of a table. A table grid is defined by thirteen runes.
+// A Grid contains the runes to define the grid format of a table. A table grid is defined by tHirteen runes.
 // A rune is allowed to be empty.
 //
-//	hi:   	horizontal inside, separation between header and the rest of the table rows
-//	hb:		horizontal border, at the top and bottom of the table
-//	vi:		vertical inside, separation between table columns
-//	vb:		vertical border, at the left and right side of the table
-//	hvi:	horizontal vertical inside
-//	hvl:	horizontal vertical left
-//	hvr:	horizontal vertical right
-//	hvt:	horizontal vertical top
-//	hvb:	horizontal vertical bottom
-//	hvtl:	horizontal vertical top left
-//	hvbl:	horizontal vertical bottom left
-//	hvtr:	horizontal vertcial top right
-//	hvbr:	horizontal vertcial bottom right
+//	Hi:   	horizontal inside, separation between header and the rest of the table rows
+//	Hb:		horizontal border, at the top and bottom of the table
+//	Vi:		vertical inside, separation between table columns
+//	Vb:		vertical border, at the left and right side of the table
+//	Hvi:	horizontal vertical inside
+//	Hvl:	horizontal vertical left
+//	Hvr:	horizontal vertical right
+//	Hvt:	horizontal vertical top
+//	Hvb:	horizontal vertical bottom
+//	Hvtl:	horizontal vertical top left
+//	Hvbl:	horizontal vertical bottom left
+//	Hvtr:	horizontal vertcial top right
+//	Hvbr:	horizontal vertcial bottom right
 //
 // A table grid has an outside border. The header row is separated from the table rows by a horizontal grid line.
-// Table rows do not have a grid line between the rows. Columns are divided by an inside grid line.
+// Table rows do not have a grid line between the rows. Columns are diVided by an inside grid line.
 type Grid struct {
-	hi, hb, vi, vb, hvi, hvl, hvr, hvt, hvb, hvtl, hvbl, hvtr, hvbr rune
+	Hi, Hb, Vi, Vb, Hvi, Hvl, Hvr, Hvt, Hvb, Hvtl, Hvbl, Hvtr, Hvbr rune
 }
 
 var (
@@ -32,175 +32,175 @@ var (
 
 	// The DoubleBorderGrid has a double-lined border.
 	DoubleBorderGrid = Grid{
-		hi:   '\u2500', // horizontal inside				─
-		hb:   '\u2550', // horizontal border				═
-		vi:   '\u2502', // vertical inside					│
-		vb:   '\u2551', // vertical border					║
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u255F', // horizontal vertical left			╟
-		hvr:  '\u2562', // horizontal vertical right		╢
-		hvt:  '\u2564', // horizontal vertical top			╤
-		hvb:  '\u2567', // horizontal vertical bottom		╧
-		hvtl: '\u2554', // horizontal vertical top left		╔
-		hvbl: '\u255A', // horizontal vertical bottom left	╚
-		hvtr: '\u2557', // horizontal vertical top right	╗
-		hvbr: '\u255D', // horizontal vertical bottom right	╝
+		Hi:   '\u2500', // horizontal inside				─
+		Hb:   '\u2550', // horizontal border				═
+		Vi:   '\u2502', // vertical inside					│
+		Vb:   '\u2551', // vertical border					║
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u255F', // horizontal vertical left			╟
+		Hvr:  '\u2562', // horizontal vertical right		╢
+		Hvt:  '\u2564', // horizontal vertical top			╤
+		Hvb:  '\u2567', // horizontal vertical bottom		╧
+		Hvtl: '\u2554', // horizontal vertical top left		╔
+		Hvbl: '\u255A', // horizontal vertical bottom left	╚
+		Hvtr: '\u2557', // horizontal vertical top right	╗
+		Hvbr: '\u255D', // horizontal vertical bottom right	╝
 	}
 
 	// The DoubleHorizontalGrid has double-lined horizontal lines.
 	DoubleHorizontalGrid = Grid{
-		hi:   '\u2550', // horizontal inside				─
-		hb:   '\u2550', // horizontal border				═
-		vi:   '\u2502', // vertical inside					│
-		vb:   '\u2502', // vertical border					║
-		hvi:  '\u256A', // horizontal vertical inside		┼
-		hvl:  '\u255E', // horizontal vertical left			╟
-		hvr:  '\u2561', // horizontal vertical right		╢
-		hvt:  '\u2564', // horizontal vertical top			╤
-		hvb:  '\u2567', // horizontal vertical bottom		╧
-		hvtl: '\u2552', // horizontal vertical top left		╔
-		hvbl: '\u2558', // horizontal vertical bottom left	╚
-		hvtr: '\u2555', // horizontal vertical top right	╗
-		hvbr: '\u255B', // horizontal vertical bottom right	╝
+		Hi:   '\u2550', // horizontal inside				─
+		Hb:   '\u2550', // horizontal border				═
+		Vi:   '\u2502', // vertical inside					│
+		Vb:   '\u2502', // vertical border					║
+		Hvi:  '\u256A', // horizontal vertical inside		┼
+		Hvl:  '\u255E', // horizontal vertical left			╟
+		Hvr:  '\u2561', // horizontal vertical right		╢
+		Hvt:  '\u2564', // horizontal vertical top			╤
+		Hvb:  '\u2567', // horizontal vertical bottom		╧
+		Hvtl: '\u2552', // horizontal vertical top left		╔
+		Hvbl: '\u2558', // horizontal vertical bottom left	╚
+		Hvtr: '\u2555', // horizontal vertical top right	╗
+		Hvbr: '\u255B', // horizontal vertical bottom right	╝
 	}
 
 	// The DoubleVerticalGrid has double-lined vertical lines.
 	DoubleVerticalGrid = Grid{
-		hi:   '\u2500', // horizontal inside				─
-		hb:   '\u2500', // horizontal border				─
-		vi:   '\u2551', // vertical inside					║
-		vb:   '\u2551', // vertical border					║
-		hvi:  '\u256B', // horizontal vertical inside		╫
-		hvl:  '\u255F', // horizontal vertical left			╟
-		hvr:  '\u2562', // horizontal vertical right		╢
-		hvt:  '\u2565', // horizontal vertical top			╥
-		hvb:  '\u2568', // horizontal vertical bottom		╨
-		hvtl: '\u2553', // horizontal vertical top left		╓
-		hvbl: '\u2559', // horizontal vertical bottom left	╙
-		hvtr: '\u2556', // horizontal vertical top right	╖
-		hvbr: '\u255C', // horizontal vertical bottom right	╜
+		Hi:   '\u2500', // horizontal inside				─
+		Hb:   '\u2500', // horizontal border				─
+		Vi:   '\u2551', // vertical inside					║
+		Vb:   '\u2551', // vertical border					║
+		Hvi:  '\u256B', // horizontal vertical inside		╫
+		Hvl:  '\u255F', // horizontal vertical left			╟
+		Hvr:  '\u2562', // horizontal vertical right		╢
+		Hvt:  '\u2565', // horizontal vertical top			╥
+		Hvb:  '\u2568', // horizontal vertical bottom		╨
+		Hvtl: '\u2553', // horizontal vertical top left		╓
+		Hvbl: '\u2559', // horizontal vertical bottom left	╙
+		Hvtr: '\u2556', // horizontal vertical top right	╖
+		Hvbr: '\u255C', // horizontal vertical bottom right	╜
 	}
 
 	// The DoubleGrid has a double-lined grid.
 	DoubleGrid = Grid{
-		hi:   '\u2550', // horizontal inside				═
-		hb:   '\u2550', // horizontal border				═
-		vi:   '\u2551', // vertical inside					║
-		vb:   '\u2551', // vertical border					║
-		hvi:  '\u256C', // horizontal vertical inside		╬
-		hvl:  '\u2560', // horizontal vertical left			╠
-		hvr:  '\u2563', // horizontal vertical right		╣
-		hvt:  '\u2566', // horizontal vertical top			╦
-		hvb:  '\u2569', // horizontal vertical bottom		╩
-		hvtl: '\u2554', // horizontal vertical top left		╔
-		hvbl: '\u255A', // horizontal vertical bottom left	╚
-		hvtr: '\u2557', // horizontal vertical top right	╗
-		hvbr: '\u255D', // horizontal vertical bottom right	╝
+		Hi:   '\u2550', // horizontal inside				═
+		Hb:   '\u2550', // horizontal border				═
+		Vi:   '\u2551', // vertical inside					║
+		Vb:   '\u2551', // vertical border					║
+		Hvi:  '\u256C', // horizontal vertical inside		╬
+		Hvl:  '\u2560', // horizontal vertical left			╠
+		Hvr:  '\u2563', // horizontal vertical right		╣
+		Hvt:  '\u2566', // horizontal vertical top			╦
+		Hvb:  '\u2569', // horizontal vertical bottom		╩
+		Hvtl: '\u2554', // horizontal vertical top left		╔
+		Hvbl: '\u255A', // horizontal vertical bottom left	╚
+		Hvtr: '\u2557', // horizontal vertical top right	╗
+		Hvbr: '\u255D', // horizontal vertical bottom right	╝
 	}
 
 	// The RoundGrid has rounded corners.
 	RoundGrid = Grid{
-		hi:   '\u2500', // horizontal inside				─
-		hb:   '\u2500', // horizontal border				─
-		vi:   '\u2502', // vertical inside					│
-		vb:   '\u2502', // vertical border					│
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u251C', // horizontal vertical left			├
-		hvr:  '\u2524', // horizontal vertical right		┤
-		hvt:  '\u252C', // horizontal vertical top			┬
-		hvb:  '\u2534', // horizontal vertical bottom		┴
-		hvtl: '\u256D', // horizontal vertical top left		╭
-		hvbl: '\u2570', // horizontal vertical bottom left	╰
-		hvtr: '\u256E', // horizontal vertical top right	╮
-		hvbr: '\u256F', // horizontal vertical bottom right	╯
+		Hi:   '\u2500', // horizontal inside				─
+		Hb:   '\u2500', // horizontal border				─
+		Vi:   '\u2502', // vertical inside					│
+		Vb:   '\u2502', // vertical border					│
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u251C', // horizontal vertical left			├
+		Hvr:  '\u2524', // horizontal vertical right		┤
+		Hvt:  '\u252C', // horizontal vertical top			┬
+		Hvb:  '\u2534', // horizontal vertical bottom		┴
+		Hvtl: '\u256D', // horizontal vertical top left		╭
+		Hvbl: '\u2570', // horizontal vertical bottom left	╰
+		Hvtr: '\u256E', // horizontal vertical top right	╮
+		Hvbr: '\u256F', // horizontal vertical bottom right	╯
 	}
 
 	// The SimpleGrid has single grid lines
 	SimpleGrid = Grid{
-		hi:   '\u2500', // horizontal inside				─
-		hb:   '\u2500', // horizontal border				─
-		vi:   '\u2502', // vertical inside					│
-		vb:   '\u2502', // vertical border					│
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u251C', // horizontal vertical left			├
-		hvr:  '\u2524', // horizontal vertical right		┤
-		hvt:  '\u252C', // horizontal vertical top			┬
-		hvb:  '\u2534', // horizontal vertical bottom		┴
-		hvtl: '\u250C', // horizontal vertical top left		┌
-		hvbl: '\u2514', // horizontal vertical bottom left	└
-		hvtr: '\u2510', // horizontal vertical top right	┐
-		hvbr: '\u2518', // horizontal vertical bottom right	┘
+		Hi:   '\u2500', // horizontal inside				─
+		Hb:   '\u2500', // horizontal border				─
+		Vi:   '\u2502', // vertical inside					│
+		Vb:   '\u2502', // vertical border					│
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u251C', // horizontal vertical left			├
+		Hvr:  '\u2524', // horizontal vertical right		┤
+		Hvt:  '\u252C', // horizontal vertical top			┬
+		Hvb:  '\u2534', // horizontal vertical bottom		┴
+		Hvtl: '\u250C', // horizontal vertical top left		┌
+		Hvbl: '\u2514', // horizontal vertical bottom left	└
+		Hvtr: '\u2510', // horizontal vertical top right	┐
+		Hvbr: '\u2518', // horizontal vertical bottom right	┘
 	}
 
 	// The BoldGrid has bold border lines.
 	BoldGrid = Grid{
-		hi:   '\u2500', // horizontal inside				─
-		hb:   '\u2501', // horizontal border				━
-		vi:   '\u2502', // vertical inside					│
-		vb:   '\u2503', // vertical border					┃
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u2520', // horizontal vertical left			┠
-		hvr:  '\u2528', // horizontal vertical right		┨
-		hvt:  '\u252F', // horizontal vertical top			┯
-		hvb:  '\u2537', // horizontal vertical bottom		┷
-		hvtl: '\u250F', // horizontal vertical top left		┏
-		hvbl: '\u2517', // horizontal vertical bottom left	┗
-		hvtr: '\u2513', // horizontal vertical top right	┓
-		hvbr: '\u251B', // horizontal vertical bottom right	┛
+		Hi:   '\u2500', // horizontal inside				─
+		Hb:   '\u2501', // horizontal border				━
+		Vi:   '\u2502', // vertical inside					│
+		Vb:   '\u2503', // vertical border					┃
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u2520', // horizontal vertical left			┠
+		Hvr:  '\u2528', // horizontal vertical right		┨
+		Hvt:  '\u252F', // horizontal vertical top			┯
+		Hvb:  '\u2537', // horizontal vertical bottom		┷
+		Hvtl: '\u250F', // horizontal vertical top left		┏
+		Hvbl: '\u2517', // horizontal vertical bottom left	┗
+		Hvtr: '\u2513', // horizontal vertical top right	┓
+		Hvbr: '\u251B', // horizontal vertical bottom right	┛
 	}
 
 	// The InterruptedGrid has interrupted grid lines.
 	InterruptedGrid = Grid{
-		hi:   '\u254C', // horizontal inside				╌
-		hb:   '\u254D', // horizontal border				╍
-		vi:   '\u254E', // vertical inside					╎
-		vb:   '\u254F', // vertical border					╏
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u2520', // horizontal vertical left			┠
-		hvr:  '\u2528', // horizontal vertical right		┨
-		hvt:  '\u252F', // horizontal vertical top			┯
-		hvb:  '\u2537', // horizontal vertical bottom		┷
-		hvtl: '\u250F', // horizontal vertical top left		┏
-		hvbl: '\u2517', // horizontal vertical bottom left	┗
-		hvtr: '\u2513', // horizontal vertical top right	┓
-		hvbr: '\u251B', // horizontal vertical bottom right	┛
+		Hi:   '\u254C', // horizontal inside				╌
+		Hb:   '\u254D', // horizontal border				╍
+		Vi:   '\u254E', // vertical inside					╎
+		Vb:   '\u254F', // vertical border					╏
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u2520', // horizontal vertical left			┠
+		Hvr:  '\u2528', // horizontal vertical right		┨
+		Hvt:  '\u252F', // horizontal vertical top			┯
+		Hvb:  '\u2537', // horizontal vertical bottom		┷
+		Hvtl: '\u250F', // horizontal vertical top left		┏
+		Hvbl: '\u2517', // horizontal vertical bottom left	┗
+		Hvtr: '\u2513', // horizontal vertical top right	┓
+		Hvbr: '\u251B', // horizontal vertical bottom right	┛
 	}
 
 	// The DashedGrid has dashed grid lines.
 	DashedGrid = Grid{
-		hi:   '\u2504', // horizontal inside				┄
-		hb:   '\u2505', // horizontal border				┅
-		vi:   '\u2506', // vertical inside					┆
-		vb:   '\u2507', // vertical border					┇
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u2520', // horizontal vertical left			┠
-		hvr:  '\u2528', // horizontal vertical right		┨
-		hvt:  '\u252F', // horizontal vertical top			┯
-		hvb:  '\u2537', // horizontal vertical bottom		┷
-		hvtl: '\u250F', // horizontal vertical top left		┏
-		hvbl: '\u2517', // horizontal vertical bottom left	┗
-		hvtr: '\u2513', // horizontal vertical top right	┓
-		hvbr: '\u251B', // horizontal vertical bottom right	┛
+		Hi:   '\u2504', // horizontal inside				┄
+		Hb:   '\u2505', // horizontal border				┅
+		Vi:   '\u2506', // vertical inside					┆
+		Vb:   '\u2507', // vertical border					┇
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u2520', // horizontal vertical left			┠
+		Hvr:  '\u2528', // horizontal vertical right		┨
+		Hvt:  '\u252F', // horizontal vertical top			┯
+		Hvb:  '\u2537', // horizontal vertical bottom		┷
+		Hvtl: '\u250F', // horizontal vertical top left		┏
+		Hvbl: '\u2517', // horizontal vertical bottom left	┗
+		Hvtr: '\u2513', // horizontal vertical top right	┓
+		Hvbr: '\u251B', // horizontal vertical bottom right	┛
 	}
 
 	// The DottedGrid has dotted grid lines.
 	DottedGrid = Grid{
-		hi:   '\u2508', // horizontal inside				┈
-		hb:   '\u2509', // horizontal border				┉
-		vi:   '\u250A', // vertical inside					┊
-		vb:   '\u250B', // vertical border					┋
-		hvi:  '\u253C', // horizontal vertical inside		┼
-		hvl:  '\u2520', // horizontal vertical left			┠
-		hvr:  '\u2528', // horizontal vertical right		┨
-		hvt:  '\u252F', // horizontal vertical top			┯
-		hvb:  '\u2537', // horizontal vertical bottom		┷
-		hvtl: '\u250F', // horizontal vertical top left		┏
-		hvbl: '\u2517', // horizontal vertical bottom left	┗
-		hvtr: '\u2513', // horizontal vertical top right	┓
-		hvbr: '\u251B', // horizontal vertical bottom right	┛
+		Hi:   '\u2508', // horizontal inside				┈
+		Hb:   '\u2509', // horizontal border				┉
+		Vi:   '\u250A', // vertical inside					┊
+		Vb:   '\u250B', // vertical border					┋
+		Hvi:  '\u253C', // horizontal vertical inside		┼
+		Hvl:  '\u2520', // horizontal vertical left			┠
+		Hvr:  '\u2528', // horizontal vertical right		┨
+		Hvt:  '\u252F', // horizontal vertical top			┯
+		Hvb:  '\u2537', // horizontal vertical bottom		┷
+		Hvtl: '\u250F', // horizontal vertical top left		┏
+		Hvbl: '\u2517', // horizontal vertical bottom left	┗
+		Hvtr: '\u2513', // horizontal vertical top right	┓
+		Hvbr: '\u251B', // horizontal vertical bottom right	┛
 	}
 
-	// AllGrids is a map which contains all Grids of the package. The map returns the *Grid when using the name of the Grid as key.
+	// AllGrids is a map wHich contains all Grids of the package. The map returns the *Grid when using the name of the Grid as key.
 	AllGrids = map[string]*Grid{
 		"EmptyGrid":            &EmptyGrid,
 		"DoubleBorderGrid":     &DoubleBorderGrid,

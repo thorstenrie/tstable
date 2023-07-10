@@ -19,7 +19,7 @@ func TestMinTable1(t *testing.T) {
 	// Set name of test table
 	name := "MinTable1"
 	// Retrieve new test table with one column and an empty string in the header
-	tbl, e := tstable.NewTable([]string{""})
+	tbl, e := tstable.New([]string{""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -42,7 +42,7 @@ func TestMinTable2(t *testing.T) {
 	// Set name of test table
 	name := "MinTable2"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := tstable.NewTable([]string{"", ""})
+	tbl, e := tstable.New([]string{"", ""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -65,7 +65,7 @@ func TestMinTable3(t *testing.T) {
 	// Set name of test table
 	name := "MinTable3"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := tstable.NewTable([]string{""})
+	tbl, e := tstable.New([]string{""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -84,7 +84,7 @@ func TestMinTable4(t *testing.T) {
 	// Set name of test table
 	name := "MinTable4"
 	// Retrieve new test table with two columns and empty strings in the header
-	tbl, e := tstable.NewTable([]string{"", ""})
+	tbl, e := tstable.New([]string{"", ""})
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -116,7 +116,7 @@ func TestNilHeader(t *testing.T) {
 	// Table header is nil
 	var header []string = nil
 	// Retrieve test table
-	if _, e := tstable.NewTable(header); e == nil {
+	if _, e := tstable.New(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -142,7 +142,7 @@ func TestEmptyHeader(t *testing.T) {
 	// Table header with zero length
 	var header []string = make([]string, 0)
 	// Retrieve test table
-	if _, e := tstable.NewTable(header); e == nil {
+	if _, e := tstable.New(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -208,12 +208,12 @@ func TestTableStringer(t *testing.T) {
 		t.Error(tserr.Op(&tserr.OpArgs{Op: "SetGrid", Fn: "table", Err: e}))
 	}
 	// Sprintln table
-	s := fmt.Sprintln(tbl)
+	s := fmt.Sprint(tbl)
 	// Retrieve the test data golden file contents for the grid
-	want := testData(name, t)
+	e := tsfio.EvalGoldenFile(&tsfio.Testcase{Name: name, Data: s})
 	// The test fails if the retrieved string representation of the test table does not equal to the contents of the test data golden file
-	if tsfio.Printable(s) != tsfio.Printable(want) {
-		t.Error(tserr.EqualStr(&tserr.EqualStrArgs{Var: name, Actual: s, Want: want}))
+	if e != nil {
+		t.Error(tserr.Op(&tserr.OpArgs{Op: "EvalGoldenFile", Fn: name, Err: e}))
 	}
 }
 
@@ -223,7 +223,7 @@ func TestNonPrintableHeader(t *testing.T) {
 	// Table header with non-printable runes
 	header := []string{testStrNp}
 	// Retrieve test table
-	if _, e := tstable.NewTable(header); e == nil {
+	if _, e := tstable.New(header); e == nil {
 		// The test fails if NewTable returns a nil error
 		t.Error(tserr.NilFailed("NewTable"))
 	}
@@ -243,7 +243,7 @@ func TestNegativePadding(t *testing.T) {
 	}
 }
 
-// TestNilgri tests SetGrid to return an error in case the provided Grid is nil.
+// TestNilGrid tests SetGrid to return an error in case the provided Grid is nil.
 // The test fails if SetGrid returns a nil error.
 func TestNilGrid(t *testing.T) {
 	// Grid is nil

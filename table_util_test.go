@@ -33,7 +33,7 @@ func testTable(t *testing.T) *tstable.Table {
 		panic(tserr.NilPtr())
 	}
 	// Create test table with test header
-	tbl, e := tstable.NewTable(header)
+	tbl, e := tstable.New(header)
 	// The test fails, if NewTable returns an error
 	if e != nil {
 		t.Fatal(tserr.Op(&tserr.OpArgs{Op: "NewTable", Fn: "table", Err: e}))
@@ -70,30 +70,6 @@ func testTable(t *testing.T) *tstable.Table {
 	return tbl
 }
 
-// goldenFn returns the filename of the test data golden file for the provided name of a table. The
-// golden files are stored in the repository sub-folder testdata/.
-func goldenFn(name string) tsfio.Filename {
-	return tsfio.Filename("testdata/" + name + ".golden")
-}
-
-// testData returns the contents of the test data golden file for the provided name of a table.
-func testData(name string, t *testing.T) string {
-	// Panic if t is nil
-	if t == nil {
-		panic(tserr.NilPtr())
-	}
-	// Retrieve filename of the golden file
-	fn := goldenFn(name)
-	// Read contents from the golden file
-	b, e := tsfio.ReadFile(fn)
-	// The test fails if ReadFile returns an error
-	if e != nil {
-		t.Error(tserr.Op(&tserr.OpArgs{Op: "ReadFile", Fn: string(fn), Err: e}))
-	}
-	// Return contents of the golden file as a string
-	return string(b)
-}
-
 // evalTable evaluates a table if it equals the test data from the golden file provided by the table name. The test fails
 // if the string representation of the table does not equal to the contents of the golden file.
 func evalTable(name string, tbl *tstable.Table, t *testing.T) {
@@ -107,14 +83,15 @@ func evalTable(name string, tbl *tstable.Table, t *testing.T) {
 	if e != nil {
 		t.Error(tserr.Op(&tserr.OpArgs{Op: "Print", Fn: name, Err: e}))
 	}
-	/*fn := goldenFn(name)
-	if err := tsfio.WriteSingleStr(fn, s); err != nil {
-		t.Error(tserr.Op(&tserr.OpArgs{Op: "WriteSingleStr", Fn: string(fn), Err: err}))
-	}*/
+	/*
+		if e = tsfio.CreateGoldenFile(&tsfio.Testcase{Name: name, Data: s}); e != nil {
+			t.Error(tserr.Op(&tserr.OpArgs{Op: "CreateGoldenFile", Fn: name, Err: e}))
+		}
+	*/
 	// Retrieve the test data golden file contents for the grid
-	want := testData(name, t)
+	e = tsfio.EvalGoldenFile(&tsfio.Testcase{Name: name, Data: s})
 	// The test fails if the retrieved string representation of the test table does not equal to the contents of the test data golden file
-	if s != want {
-		t.Error(tserr.EqualStr(&tserr.EqualStrArgs{Var: name, Actual: s, Want: want}))
+	if e != nil {
+		t.Error(tserr.Op(&tserr.OpArgs{Op: "EvalGoldenFile", Fn: name, Err: e}))
 	}
 }

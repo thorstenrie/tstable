@@ -28,7 +28,7 @@ type Table struct {
 // New returns a pointer to a new Table. It expects the header of the table
 // h as a slice of strings. It returns nil and an error, if h is nil, has
 // zero length or contains non-printable runes. The order of the header is fixed.
-func NewTable(h []string) (*Table, error) {
+func New(h []string) (*Table, error) {
 	// Return nil and an error if h is nil or h has zero length
 	if (h == nil) || (len(h) == 0) {
 		return nil, tserr.Empty("header")
