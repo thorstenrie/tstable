@@ -17,6 +17,14 @@ Go package for tables with a simple API
 ![GitHub Top Language](https://img.shields.io/github/languages/top/thorstenrie/tstable)
 ![GitHub](https://img.shields.io/github/license/thorstenrie/tstable)
 
+The Go package tstable provides a simple interface for tables. A new instance of a table can be retrieved with New by providing a table header. Table rows can be added
+with AddRow. The table visualization can be altered with SetGrid and SetPadding. The package provides a set of grids or a grid can be customized. The string representation of a table is retrieved with Print. A table is sorted alphabetically by the first column. It can be sorted by other columns with SortBy.
+
+- **Simple**: Without configuration, just function calls
+- **Easy to use**: Just define the header of a table and add rows
+- **Tested**: Unit tests with high code coverage.
+- **Dependencies**: Only depends on the [Go Standard Library](https://pkg.go.dev/std), [tserr](https://github.com/thorstenrie/tserr), [lpstats](https://github.com/thorstenrie/lpstats) and tsfio
+
 ## Table grid
 
 | `hvtl` | `hb`       | `hvt` | `hb`       | `hvtr` |
