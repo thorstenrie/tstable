@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 package tstable
 
-// A Grid contains the runes to define the grid format of a table. A table grid is defined by tHirteen runes.
+// A Grid contains the runes to define the grid format of a table. A table grid is defined by thirteen runes.
 // A rune is allowed to be empty.
 //
 //	Hi:   	horizontal inside, separation between header and the rest of the table rows
@@ -21,7 +21,7 @@ package tstable
 //	Hvbr:	horizontal vertcial bottom right
 //
 // A table grid has an outside border. The header row is separated from the table rows by a horizontal grid line.
-// Table rows do not have a grid line between the rows. Columns are diVided by an inside grid line.
+// Table rows do not have a grid line between the rows. Columns are divided by an inside grid line.
 type Grid struct {
 	Hi, Hb, Vi, Vb, Hvi, Hvl, Hvr, Hvt, Hvb, Hvtl, Hvbl, Hvtr, Hvbr rune
 }
@@ -200,7 +200,7 @@ var (
 		Hvbr: '\u251B', // horizontal vertical bottom right	┛
 	}
 
-	// AllGrids is a map wHich contains all Grids of the package. The map returns the *Grid when using the name of the Grid as key.
+	// AllGrids is a map which contains all Grids of the package. The map returns the *Grid when using the name of the Grid as key.
 	AllGrids = map[string]*Grid{
 		"EmptyGrid":            &EmptyGrid,
 		"DoubleBorderGrid":     &DoubleBorderGrid,
