@@ -185,13 +185,13 @@ type Grid struct {
 //	Hvbr:	horizontal vertcial bottom right
 ````
 
-| `hvtl` | `hb`       | `hvt` | `hb`       | `hvtr` |
+| `Hvtl` | `Hb`       | `Hvt` | `Hb`       | `Hvtr` |
 |------|----------|-----|----------|------|
-| `vb`   | header_1 | vi  | header_2 | `vb`   |
-| `hvl`  | `hi`       | `hvi` | `hi`       | `hvr`  |
-| `vb`   | cell_11  | `vi`  | cell_21  | `vb`   |
-| `vb`   | cell_21  | `hvb` | cell_22  | `hvbr` |
-| `hvbl` | `hb`       | `hvb` | `hb`       | `hvbr` |
+| `Vb`   | header_1 | `vi`  | header_2 | `Vb`   |
+| `Hvl`  | `Hi`       | `Hvi` | `Hi`       | `Hvr`  |
+| `Vb`   | cell_11  | `Vi`  | cell_21  | `Vb`   |
+| `Vb`   | cell_21  | `Hvb` | cell_22  | `Hvbr` |
+| `Hvbl` | `Hb`       | `Hvb` | `Hb`       | `Hvbr` |
 
 An example with a custom table grid is included in [example/example.go](https://github.com/thorstenrie/tstable/blob/main/example/example.go)
 
