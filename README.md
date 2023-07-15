@@ -29,17 +29,161 @@ with AddRow. The table visualization can be altered with SetGrid and SetPadding.
 
 The package is installed with 
 
-```
+````go
 go get github.com/thorstenrie/tstable
-```
+````
 
 In the Go app, the package is imported with
 
-```
+````go
 import "github.com/thorstenrie/tstable"
-```
+````
 
 ## Table grid
+
+A table grid has an outside border. The header row is separated from the table rows by a horizontal grid line. Table rows do not have a grid line between the rows. Columns are divided by an inside grid line. The package provides a set of grids for table string representation. A grid can be used by providing its reference to SetGrid, for example:
+
+````go
+tbl.SetGrid(&tstable.DoubleBorderGrid)
+````
+
+<details>
+  <summary>See all included grids</summary>
+	
+  ````
+DoubleBorderGrid
+  ╔═════════════════════╤════════════════════════════════╤════════════════╗
+  ║  Fellowship member  │  Title                         │  Weapon        ║
+  ╟─────────────────────┼────────────────────────────────┼────────────────╢
+  ║  Aragorn            │  King of Gondor                │  Sword         ║
+  ║  Boromir            │  Captain of the White Tower    │  Sword         ║
+  ║  Gandalf            │  The Grey                      │  Wizard staff  ║
+  ║  Gimli              │  Lord of the Glittering Caves  │  Axe           ║
+  ║  Legolas            │  Prince of the Woodland Realm  │  Bow           ║
+  ╚═════════════════════╧════════════════════════════════╧════════════════╝
+DoubleHorizontalGrid
+  ╒═════════════════════╤════════════════════════════════╤════════════════╕
+  │  Fellowship member  │  Title                         │  Weapon        │
+  ╞═════════════════════╪════════════════════════════════╪════════════════╡
+  │  Aragorn            │  King of Gondor                │  Sword         │
+  │  Boromir            │  Captain of the White Tower    │  Sword         │
+  │  Gandalf            │  The Grey                      │  Wizard staff  │
+  │  Gimli              │  Lord of the Glittering Caves  │  Axe           │
+  │  Legolas            │  Prince of the Woodland Realm  │  Bow           │
+  ╘═════════════════════╧════════════════════════════════╧════════════════╛
+DoubleGrid
+  ╔═════════════════════╦════════════════════════════════╦════════════════╗
+  ║  Fellowship member  ║  Title                         ║  Weapon        ║
+  ╠═════════════════════╬════════════════════════════════╬════════════════╣
+  ║  Aragorn            ║  King of Gondor                ║  Sword         ║
+  ║  Boromir            ║  Captain of the White Tower    ║  Sword         ║
+  ║  Gandalf            ║  The Grey                      ║  Wizard staff  ║
+  ║  Gimli              ║  Lord of the Glittering Caves  ║  Axe           ║
+  ║  Legolas            ║  Prince of the Woodland Realm  ║  Bow           ║
+  ╚═════════════════════╩════════════════════════════════╩════════════════╝
+RoundGrid
+  ╭─────────────────────┬────────────────────────────────┬────────────────╮
+  │  Fellowship member  │  Title                         │  Weapon        │
+  ├─────────────────────┼────────────────────────────────┼────────────────┤
+  │  Aragorn            │  King of Gondor                │  Sword         │
+  │  Boromir            │  Captain of the White Tower    │  Sword         │
+  │  Gandalf            │  The Grey                      │  Wizard staff  │
+  │  Gimli              │  Lord of the Glittering Caves  │  Axe           │
+  │  Legolas            │  Prince of the Woodland Realm  │  Bow           │
+  ╰─────────────────────┴────────────────────────────────┴────────────────╯
+SimpleGrid
+  ┌─────────────────────┬────────────────────────────────┬────────────────┐
+  │  Fellowship member  │  Title                         │  Weapon        │
+  ├─────────────────────┼────────────────────────────────┼────────────────┤
+  │  Aragorn            │  King of Gondor                │  Sword         │
+  │  Boromir            │  Captain of the White Tower    │  Sword         │
+  │  Gandalf            │  The Grey                      │  Wizard staff  │
+  │  Gimli              │  Lord of the Glittering Caves  │  Axe           │
+  │  Legolas            │  Prince of the Woodland Realm  │  Bow           │
+  └─────────────────────┴────────────────────────────────┴────────────────┘
+BoldGrid
+  ┏━━━━━━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━┓
+  ┃  Fellowship member  │  Title                         │  Weapon        ┃
+  ┠─────────────────────┼────────────────────────────────┼────────────────┨
+  ┃  Aragorn            │  King of Gondor                │  Sword         ┃
+  ┃  Boromir            │  Captain of the White Tower    │  Sword         ┃
+  ┃  Gandalf            │  The Grey                      │  Wizard staff  ┃
+  ┃  Gimli              │  Lord of the Glittering Caves  │  Axe           ┃
+  ┃  Legolas            │  Prince of the Woodland Realm  │  Bow           ┃
+  ┗━━━━━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━┛
+EmptyGrid
+  
+    Fellowship member    Title                           Weapon        
+  
+    Aragorn              King of Gondor                  Sword         
+    Boromir              Captain of the White Tower      Sword         
+    Gandalf              The Grey                        Wizard staff  
+    Gimli                Lord of the Glittering Caves    Axe           
+    Legolas              Prince of the Woodland Realm    Bow           
+  
+DoubleVerticalGrid
+  ╓─────────────────────╥────────────────────────────────╥────────────────╖
+  ║  Fellowship member  ║  Title                         ║  Weapon        ║
+  ╟─────────────────────╫────────────────────────────────╫────────────────╢
+  ║  Aragorn            ║  King of Gondor                ║  Sword         ║
+  ║  Boromir            ║  Captain of the White Tower    ║  Sword         ║
+  ║  Gandalf            ║  The Grey                      ║  Wizard staff  ║
+  ║  Gimli              ║  Lord of the Glittering Caves  ║  Axe           ║
+  ║  Legolas            ║  Prince of the Woodland Realm  ║  Bow           ║
+  ╙─────────────────────╨────────────────────────────────╨────────────────╜
+InterruptedGrid
+  ┏╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┯╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┯╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┓
+  ╏  Fellowship member  ╎  Title                         ╎  Weapon        ╏
+  ┠╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┨
+  ╏  Aragorn            ╎  King of Gondor                ╎  Sword         ╏
+  ╏  Boromir            ╎  Captain of the White Tower    ╎  Sword         ╏
+  ╏  Gandalf            ╎  The Grey                      ╎  Wizard staff  ╏
+  ╏  Gimli              ╎  Lord of the Glittering Caves  ╎  Axe           ╏
+  ╏  Legolas            ╎  Prince of the Woodland Realm  ╎  Bow           ╏
+  ┗╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┷╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┷╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍┛
+DashedGrid
+  ┏┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┯┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┯┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┓
+  ┇  Fellowship member  ┆  Title                         ┆  Weapon        ┇
+  ┠┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┨
+  ┇  Aragorn            ┆  King of Gondor                ┆  Sword         ┇
+  ┇  Boromir            ┆  Captain of the White Tower    ┆  Sword         ┇
+  ┇  Gandalf            ┆  The Grey                      ┆  Wizard staff  ┇
+  ┇  Gimli              ┆  Lord of the Glittering Caves  ┆  Axe           ┇
+  ┇  Legolas            ┆  Prince of the Woodland Realm  ┆  Bow           ┇
+  ┗┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┷┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┷┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┛
+DottedGrid
+  ┏┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┯┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┯┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┓
+  ┋  Fellowship member  ┊  Title                         ┊  Weapon        ┋
+  ┠┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┼┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┼┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┨
+  ┋  Aragorn            ┊  King of Gondor                ┊  Sword         ┋
+  ┋  Boromir            ┊  Captain of the White Tower    ┊  Sword         ┋
+  ┋  Gandalf            ┊  The Grey                      ┊  Wizard staff  ┋
+  ┋  Gimli              ┊  Lord of the Glittering Caves  ┊  Axe           ┋
+  ┋  Legolas            ┊  Prince of the Woodland Realm  ┊  Bow           ┋
+  ┗┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┷┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┷┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┛
+  ````
+</details>
+
+A custom grid can also be provided to SetGrid. A custom grid is defined with the Grid struct type. The Grid struct type contains the runes to define the grid format of a table. A table grid is defined by thirteen runes. A rune is allowed to be empty.
+
+````go
+type Grid struct {
+	Hi, Hb, Vi, Vb, Hvi, Hvl, Hvr, Hvt, Hvb, Hvtl, Hvbl, Hvtr, Hvbr rune
+}
+//	Hi:   	horizontal inside, separation between header and the rest of the table rows
+//	Hb:	horizontal border, at the top and bottom of the table
+//	Vi:	vertical inside, separation between table columns
+//	Vb:	vertical border, at the left and right side of the table
+//	Hvi:	horizontal vertical inside
+//	Hvl:	horizontal vertical left
+//	Hvr:	horizontal vertical right
+//	Hvt:	horizontal vertical top
+//	Hvb:	horizontal vertical bottom
+//	Hvtl:	horizontal vertical top left
+//	Hvbl:	horizontal vertical bottom left
+//	Hvtr:	horizontal vertcial top right
+//	Hvbr:	horizontal vertcial bottom right
+````
 
 | `hvtl` | `hb`       | `hvt` | `hb`       | `hvtr` |
 |------|----------|-----|----------|------|
@@ -49,9 +193,11 @@ import "github.com/thorstenrie/tstable"
 | `vb`   | cell_21  | `hvb` | cell_22  | `hvbr` |
 | `hvbl` | `hb`       | `hvb` | `hb`       | `hvbr` |
 
+An example with a custom table grid is included in [example/example.go](https://github.com/thorstenrie/tstable/blob/main/example/example.go)
+
 ## Example
 
-```
+````go
 package main
 
 import (
@@ -77,13 +223,15 @@ func main() {
 	for _, r := range rows {
 		tbl.AddRow(r)
 	}
-	tbl.SetGrid(&tstable.RoundGrid)
-	fmt.Print(tbl)
+	for n, g := range tstable.AllGrids {
+		tbl.SetGrid(g)
+		fmt.Println(n)
+		fmt.Print(tbl)
+	}
 }
-```
-[Go Playground](https://go.dev/play/p/a-JNpKkRSxH)
 
-An example with a custom table grid is included in [example/example.go](https://github.com/thorstenrie/tstable/blob/main/example/example.go)
+````
+[Go Playground](https://go.dev/play/p/XsuobSpC0Di)
 
 ## Links
 
