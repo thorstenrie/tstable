@@ -25,6 +25,18 @@ with AddRow. The table visualization can be altered with SetGrid and SetPadding.
 - **Tested**: Unit tests with high code coverage.
 - **Dependencies**: Only depends on the [Go Standard Library](https://pkg.go.dev/std), [tserr](https://github.com/thorstenrie/tserr), [lpstats](https://github.com/thorstenrie/lpstats) and [tsfio](https://github.com/thorstenrie/tsfio)
 
+````
+┌─────────────────────┬────────────────────────────────┬────────────────┐
+│  Fellowship member  │  Title                         │  Weapon        │
+├─────────────────────┼────────────────────────────────┼────────────────┤
+│  Aragorn            │  King of Gondor                │  Sword         │
+│  Boromir            │  Captain of the White Tower    │  Sword         │
+│  Gandalf            │  The Grey                      │  Wizard staff  │
+│  Gimli              │  Lord of the Glittering Caves  │  Axe           │
+│  Legolas            │  Prince of the Woodland Realm  │  Bow           │
+└─────────────────────┴────────────────────────────────┴────────────────┘
+````
+
 ## Usage
 
 The package is installed with 
