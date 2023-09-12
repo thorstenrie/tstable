@@ -1,3 +1,9 @@
+// Package tstable provides a simple interface for tables. A new instance of a table can be retrieved with
+// New and providing a table header. Table rows can be added with AddRow. The table visualization can be
+// altered with SetGrid and SetPadding. The package provides a set of grids or a grid can be customized.
+// The string representation of a table is retrieved with Print. A table is sorted alphabetically by the
+// first column. It can be sorted by other columns with SortBy.
+//
 // Copyright (c) 2023 thorstenrie.
 // All Rights Reserved. Use is governed with GNU Affero General Public License v3.0
 // that can be found in the LICENSE file.
