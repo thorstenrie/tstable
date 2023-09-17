@@ -14,9 +14,9 @@ import (
 	"strings"      // strings
 	"unicode/utf8" // utf8
 
-	"github.com/thorstenrie/lpstats" // lpstats
-	"github.com/thorstenrie/tserr"   // tserr
-	"github.com/thorstenrie/tsfio"   // tsfio
+	// lpstats
+	"github.com/thorstenrie/tserr" // tserr
+	"github.com/thorstenrie/tsfio" // tsfio
 )
 
 // Table holds the header of the table and all rows of the table. It also contains
@@ -105,7 +105,7 @@ func (t *Table) AddRow(r []string) error {
 	for i, c := range r {
 		// Set the width of column i to the maximum of current width of column i and number or runes in element i of row r
 		// This adjusts the width of column i, if c contains more runes than previous elements of column i
-		t.width[i] = lpstats.Max(t.width[i], utf8.RuneCountInString(c))
+		t.width[i] = max(t.width[i], utf8.RuneCountInString(c))
 	}
 	// Return nil
 	return nil
